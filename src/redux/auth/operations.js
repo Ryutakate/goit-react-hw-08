@@ -1,6 +1,29 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
 import axios from 'axios';
 
+const setToken = token => {
+    axios.defaults.headers.common.Authorization = `Bearer ${token}`;
+    localStorage.setItem('token', token);
+};
+
+const removeToken = () => {
+    delete axios.defaults.headers.common.Authorization;
+    localStorage.removeItem('token');
+};
+
+export const register = createAsyncThunk(
+    'auth/register',
+    async (credentials, thunkAPI) => {
+        try {
+            const res = await axios.post('/users/signup', credentials);
+            setToken(res.data.token);
+            return res.data;
+        } catch (error) {
+            return thunkAPI.rejectWithValue(error.response?.data?.message || error.message);
+        }
+    }
+);
+
 export const logIn = createAsyncThunk(
     'auth/logIn',
     async (credentials, thunkAPI) => {
@@ -9,7 +32,7 @@ export const logIn = createAsyncThunk(
             setToken(res.data.token);
             return res.data;
         } catch (error) {
-            return thunkAPI.rejectWithValue(error.response.data.message);
+            return thunkAPI.rejectWithValue(error.response?.data?.message || error.message);
         }
     }
 );
@@ -18,10 +41,10 @@ export const logOut = createAsyncThunk(
     'auth/logOut',
     async (_, thunkAPI) => {
         try {
-            removeToken(); 
-            return {};  
+            removeToken();
+            return {};
         } catch (error) {
-            return thunkAPI.rejectWithValue(error.response.data.message);
+            return thunkAPI.rejectWithValue(error.response?.data?.message || error.message);
         }
     }
 );
@@ -32,14 +55,12 @@ export const refreshUser = createAsyncThunk(
         try {
             const token = localStorage.getItem('token');
             if (!token) throw new Error('No token found');
+            setToken(token);
 
-            const res = await axios.get('/users/refresh', {
-                headers: { Authorization: `Bearer ${token}` }
-            });
-
-            return res.data; 
+            const res = await axios.get('/users/refresh');
+            return res.data;
         } catch (error) {
-            return thunkAPI.rejectWithValue(error.response.data.message);
+            return thunkAPI.rejectWithValue(error.response?.data?.message || error.message);
         }
     }
 );
