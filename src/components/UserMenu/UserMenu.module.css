@@ -1,0 +1,23 @@
+.menu {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.email {
+    margin: 0;
+    color: white;
+}
+
+.button {
+    padding: 5px 10px;
+    background-color: #e74c3c;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+.button:hover {
+    background-color: #c0392b;
+}

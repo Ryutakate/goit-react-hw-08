@@ -1,0 +1,14 @@
+.nav {
+    display: flex;
+    gap: 15px;
+}
+
+.link {
+    color: white;
+    text-decoration: none;
+    font-weight: bold;
+}
+
+.link.active {
+    text-decoration: underline;
+}
