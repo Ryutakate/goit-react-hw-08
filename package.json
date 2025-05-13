@@ -3,7 +3,7 @@
   "private": true,
   "version": "0.0.0",
   "type": "module",
-  "homepage": "https://Ryutakate.github.io/goit-react-hw-08",
+  "homepage": "https://ryutakate.github.io/goit-react-hw-08/",
   "scripts": {
     "predeploy": "npm run build",
     "deploy": "gh-pages -d build",
