@@ -1,8 +1,7 @@
-import { lazy, useEffect } from 'react';
+import { lazy } from 'react';
 import { Route, Routes } from 'react-router-dom';
-import { useDispatch, useSelector } from 'react-redux';
-import { refreshUser } from './redux/auth/operations'; 
-import { selectIsLoggedIn, selectIsRefreshing } from './redux/auth/selectors';
+import { useSelector } from 'react-redux';
+import { selectIsLoggedIn } from './redux/auth/selectors';
 import { PrivateRoute } from './components/RouteGuards/PrivateRoute';
 import { RestrictedRoute } from './components/RouteGuards/RestrictedRoute';
 import Layout from './components/Layout/Layout';
@@ -13,17 +12,9 @@ const LoginPage = lazy(() => import('./pages/LoginPage/LoginPage'));
 const ContactsPage = lazy(() => import('./pages/ContactsPage/ContactsPage'));
 
 export default function App() {
-  const dispatch = useDispatch();
-  const isRefreshing = useSelector(selectIsRefreshing);
+  const isLoggedIn = useSelector(selectIsLoggedIn);
 
-
-  useEffect(() => {
-    dispatch(refreshUser());
-  }, [dispatch]);
-
-  return isRefreshing ? (
-    <b>Refreshing user...</b>
-  ) : (
+  return (
     <Routes>
       <Route path="/" element={<Layout />}>
         <Route index element={<HomePage />} />
