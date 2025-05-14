@@ -15,7 +15,6 @@ const ContactsPage = () => {
         <div>
             <h2>Your Contacts</h2>
             <ContactForm />
-            <Filter />
             <ContactList />
         </div>
     );
