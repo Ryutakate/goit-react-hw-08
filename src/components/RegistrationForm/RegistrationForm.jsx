@@ -5,48 +5,56 @@ import { register } from '../../redux/auth/operations';
 import styles from './RegistrationForm.module.css';
 
 const registrationSchema = Yup.object().shape({
-    name: Yup.string().min(2, 'Too short').required('Required'),
-    email: Yup.string().email('Invalid email').required('Required'),
-    password: Yup.string().min(6, 'At least 6 characters').required('Required'),
+  name: Yup.string().min(2, 'Too short').required('Required'),
+  email: Yup.string().email('Invalid email').required('Required'),
+  password: Yup.string().min(6, 'At least 6 characters').required('Required'),
 });
 
 export default function RegistrationForm() {
-    const dispatch = useDispatch();
+  const dispatch = useDispatch();
 
-    const handleSubmit = (values, { resetForm }) => {
-        dispatch(register(values));
-        resetForm();
-    };
+  const handleSubmit = (values, { resetForm }) => {
+    dispatch(register(values))
+      .unwrap()
+      .then(() => {
+        console.log('registration success');
+      })
+      .catch(() => {
+        console.log('registration error');
+      });
 
-    return (
-        <Formik
-            initialValues={{ name: '', email: '', password: '' }}
-            validationSchema={registrationSchema} 
-            onSubmit={handleSubmit}
-        >
-            <Form className={styles.form}>
-                <label className={styles.label}>
-                    Name
-                    <Field className={styles.input} type="text" name="name" />
-                    <ErrorMessage name="name" component="div" className={styles.error} />
-                </label>
+    resetForm();
+  };
 
-                <label className={styles.label}>
-                    Email
-                    <Field className={styles.input} type="email" name="email" />
-                    <ErrorMessage name="email" component="div" className={styles.error} />
-                </label>
+  return (
+    <Formik
+      initialValues={{ name: '', email: '', password: '' }}
+      validationSchema={registrationSchema}
+      onSubmit={handleSubmit}
+    >
+      <Form className={styles.form} autoComplete="off">
+        <label className={styles.label}>
+          Name
+          <Field className={styles.input} type="text" name="name" />
+          <ErrorMessage name="name" component="div" className={styles.error} />
+        </label>
 
-                <label className={styles.label}>
-                    Password
-                    <Field className={styles.input} type="password" name="password" />
-                    <ErrorMessage name="password" component="div" className={styles.error} />
-                </label>
+        <label className={styles.label}>
+          Email
+          <Field className={styles.input} type="email" name="email" />
+          <ErrorMessage name="email" component="div" className={styles.error} />
+        </label>
 
-                <button className={styles.button} type="submit">
-                    Register
-                </button>
-            </Form>
-        </Formik>
-    );
+        <label className={styles.label}>
+          Password
+          <Field className={styles.input} type="password" name="password" />
+          <ErrorMessage name="password" component="div" className={styles.error} />
+        </label>
+
+        <button className={styles.button} type="submit">
+          Register
+        </button>
+      </Form>
+    </Formik>
+  );
 }

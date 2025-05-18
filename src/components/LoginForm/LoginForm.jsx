@@ -7,23 +7,33 @@ export default function LoginForm() {
     const dispatch = useDispatch();
 
     const handleSubmit = (values, { resetForm }) => {
-        dispatch(logIn(values)); -
+        dispatch(logIn(values))
+            .unwrap()
+            .then(() => {
+                console.log('login success');
+            })
+            .catch(() => {
+                console.log('login error');
+            });
+
         resetForm();
     };
 
     return (
         <Formik initialValues={{ email: '', password: '' }} onSubmit={handleSubmit}>
-            <Form className={styles.form}>
-                <label>
+            <Form className={styles.form} autoComplete="off">
+                <label className={styles.label}>
                     Email
                     <Field type="email" name="email" required />
                 </label>
-                <label>
+                <label className={styles.label}>
                     Password
                     <Field type="password" name="password" required />
                 </label>
-                <button type="submit">Log In</button>
+                <button className={styles.button} type="submit">Log In</button>
             </Form>
         </Formik>
     );
 }
+
+

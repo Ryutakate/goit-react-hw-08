@@ -1,42 +1,43 @@
-import React, { useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { addContact } from '../../redux/contacts/operations';
 import styles from './ContactForm.module.css';
 
-const ContactForm = () => {
-    const [name, setName] = useState('');
-    const [phone, setPhone] = useState('');
+export const ContactForm = () => {
     const dispatch = useDispatch();
 
     const handleSubmit = (e) => {
         e.preventDefault();
+        const form = e.currentTarget;
 
-        const newContact = { name, phone };
-        dispatch(addContact(newContact));
+        const name = form.elements.name.value.trim();
+        const number = form.elements.number.value.trim();
 
-        setName('');
-        setPhone('');
+        if (!name || !number) {
+            alert('Please enter both name and number!');
+            return;
+        }
+
+        dispatch(addContact({ name, number }));
+        form.reset();
     };
 
     return (
         <form className={styles.form} onSubmit={handleSubmit}>
             <input
-                type="text"
                 name="name"
-                value={name}
-                onChange={(e) => setName(e.target.value)}
-                placeholder="Enter name"
+                className={styles.input}
+                placeholder="Name"
                 required
             />
-            <input     
-                type="tel"
-                name="phone"
-                value={phone}
-                onChange={(e) => setPhone(e.target.value)}
-                placeholder="Enter phone number"
-                required 
+            <input
+                name="number"
+                className={styles.input}
+                placeholder="Phone Number"
+                required
             />
-            <button type="submit">Add Contact</button>
+            <button type="submit" className={styles.button}>
+                Add Contact
+            </button>
         </form>
     );
 };
