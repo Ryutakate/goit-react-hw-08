@@ -36,19 +36,25 @@ export default function RegistrationForm() {
         <label className={styles.label}>
           Name
           <Field className={styles.input} type="text" name="name" />
-          <ErrorMessage name="name" component="div" className={styles.error} />
+          <ErrorMessage name="text">
+            {msg => <div className={styles.error}>{msg}</div>}
+          </ErrorMessage>
         </label>
 
         <label className={styles.label}>
           Email
           <Field className={styles.input} type="email" name="email" />
-          <ErrorMessage name="email" component="div" className={styles.error} />
+          <ErrorMessage name="email">
+            {msg => <div className={styles.error}>{msg}</div>}
+          </ErrorMessage>
         </label>
 
         <label className={styles.label}>
           Password
           <Field className={styles.input} type="password" name="password" />
-          <ErrorMessage name="password" component="div" className={styles.error} />
+          <ErrorMessage name="password">
+            {msg => <div className={styles.error}>{msg}</div>}
+          </ErrorMessage>
         </label>
 
         <button className={styles.button} type="submit">

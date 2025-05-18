@@ -1,16 +1,7 @@
 .list {
     list-style-type: none;
     padding: 0;
-}
-
-button {
-    padding: 10px;
-    background-color: #28a745;
-    color: white;
-    border: none;
-    cursor: pointer;
-}
-
-button:hover {
-    background-color: #218838;
+    display: grid;
+    grid-template-columns: 1fr;
+    grid-gap: 12px;
 }

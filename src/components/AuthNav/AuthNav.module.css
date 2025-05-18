@@ -1,11 +1,9 @@
-.nav {
-    display: flex;
-    gap: 10px;
-}
-
 .link {
-    color: white;
+    display: inline-block;
     text-decoration: none;
+    padding: 12px;
+    font-weight: 700;
+    color: white;
 }
 
 .link.active {
