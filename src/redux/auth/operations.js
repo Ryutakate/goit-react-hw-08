@@ -64,7 +64,7 @@ export const refreshUser = createAsyncThunk(
         try {
             setToken(token);
             const res = await axios.get('/users/current');
-            return res.data; // <- має бути user
+            return res.data;
         } catch (error) {
             return thunkAPI.rejectWithValue(error.response?.data?.message || error.message);
         }
