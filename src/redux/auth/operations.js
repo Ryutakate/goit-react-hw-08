@@ -56,13 +56,17 @@ export const logOut = createAsyncThunk(
 export const refreshUser = createAsyncThunk(
     'auth/refreshUser',
     async (_, thunkAPI) => {
+        const state = thunkAPI.getState();
+        const token = state.auth.token ?? localStorage.getItem('token');
+        if (!token) {
+            return thunkAPI.rejectWithValue('No token found');
+        }
         try {
-            const token = localStorage.getItem('token');
-            if (!token) throw new Error('No token found');
             setToken(token);
-            return { token };
+            const res = await axios.get('/users/current');
+            return res.data; // <- має бути user
         } catch (error) {
-            return thunkAPI.rejectWithValue(error.message);
+            return thunkAPI.rejectWithValue(error.response?.data?.message || error.message);
         }
     }
 );
