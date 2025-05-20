@@ -60,11 +60,9 @@ export const refreshUser = createAsyncThunk(
             const token = localStorage.getItem('token');
             if (!token) throw new Error('No token found');
             setToken(token);
-
-            const res = await axios.get('/users/refresh');
-            return res.data;
+            return { token };
         } catch (error) {
-            return thunkAPI.rejectWithValue(error.response?.data?.message || error.message);
+            return thunkAPI.rejectWithValue(error.message);
         }
     }
 );
